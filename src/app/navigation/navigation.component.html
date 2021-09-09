@@ -1,0 +1,86 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" routerLink="/">Mis Clientes</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <!--li class="nav-item active">
+          <a class="nav-link" routerLink="/clientes" routerLinkActive="active">
+            <i class="fas fa-book"></i> Informe de Clientes
+          </a>
+        </li -->
+        
+        <li class="nav-item active">
+            <a class      = "nav-link" routerLink = "/products" >
+                <i class="fas fa-plus-circle"></i> Products 
+            </a> 
+        </li>
+        <li class="nav-item active">
+            <a class = "nav-link" routerLink = "/categories"  >
+              <i class="fas fa-plus-circle"></i> Category 
+            </a>
+        </li>
+        <!-- <li class="nav-item active">
+          <a class = "nav-link" routerLink="/profile" *ngIf="isSignedIn">User Profile</a>
+        </li> -->
+        <li class="nav-item active">
+          <a class = "nav-link" *ngIf="!isSignedIn" routerLink="/login">Log in</a>
+        </li>
+        <li class="nav-item active">
+          <a class = "nav-link" *ngIf="!isSignedIn" routerLink="/register">Register</a>
+        </li>
+        <li class="nav-item active">
+          <a class = "nav-link" (click)="signOut()" *ngIf="isSignedIn">Log out</a>
+        </li>
+        
+      </ul>
+    </div>
+  </nav>
+  
+  <!-- Modal -->
+  <!-- <div class="modal fade" id="NuevoCliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Añade nuevos Clientes</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="" >
+            <div class="form-group">
+              <input type="text" [(ngModel)]="cliente.nombre" name="Nombre" placeholder="Nombres" class="form-control" autofocus>
+            </div>
+            <div class="form-group">
+              <input type="text" [(ngModel)]="cliente.documento" name="Documento"  placeholder="Documento" class="form-control"  >
+            </div>
+            <div class="form-group">
+              <input type="text" [(ngModel)]="cliente.direccion" name="Direccion" placeholder="Direccion" class="form-control"  >
+            </div>
+            <div class="form-group">
+              <input type="number" [(ngModel)]="cliente.telefono" name="Telefono" placeholder="Telefono" class="form-control"  >
+            </div>
+            <div class="form-group">
+              <input type="mail" [(ngModel)]="cliente.email" name="Email" placeholder="Correo Electronico" class="form-control"  >
+            </div>
+            <div class="form-group">
+              <select  [(ngModel)]="cliente.estado" name="Estado" class="form-control" >
+                  <option value='Activo' >    Activado </option>
+                  <option value='Desactivado' > Desactivado </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-warning" (click)="NuevosClientes()" >
+                Crear
+              </button>
+            </div>
+          </form>
+        </div>
+  
+      </div>
+    </div>
+  </div> -->
+  
