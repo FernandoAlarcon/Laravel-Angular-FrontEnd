@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.css'] 
 })
 export class ProductsComponent implements OnInit {
 
@@ -24,27 +24,21 @@ export class ProductsComponent implements OnInit {
     id: '',
     nombre:'',
     descripcion:'',
-    peso:'',
+    cantidad:'',
     precio:'',
     categoria:''
   }
   NewProducts : Products = { 
     nombre:'',
     descripcion:'',
-    peso:'',
+    cantidad:'',
     precio:'',
     categoria:''
   }
   categories: any = [];
-  productos: any = [];
-  pagination : Pagination = {
-    total : 0, 
-    current_page : 0, 
-    per_page : 0, 
-    last_page : 0, 
-    from : 0, 
-    to : 0 
-  }
+  productos : any = [];
+  pagination: any = [];
+ 
    
   //@ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(  private productsservice:ProductsService, 
@@ -56,11 +50,33 @@ export class ProductsComponent implements OnInit {
     this.GetCategories();
   }
 
+  KeySearch(){
+    this.pagination.current_page = 0;
+    this.getProducts();
+  }
+
+  changePage(page: number):void{
+    this.pagination.current_page = page;
+    this.getProducts();
+  }
+
   GetCategories():void {
-    this.categoriasservice.getCategorias('').subscribe(
+    this.categoriasservice.getCategorias('',0).subscribe(
       (res:any) => {
         this.categories = res.categories.data
       }
+    )
+  } 
+
+  
+
+  getProducts():void{
+    this.productsservice.getProducts(this.data, this.pagination.current_page).subscribe(
+      ( res:any) => {
+        this.productos  = res.productos.data,
+        this.pagination = res.pagination
+      },
+      (err: any) => console.error(err)
     )
   }
 
@@ -74,36 +90,28 @@ export class ProductsComponent implements OnInit {
         this.NewProducts.id          = '';
         this.NewProducts.nombre      = '';
         this.NewProducts.descripcion = '';
-        this.NewProducts.peso        = '';
+        this.NewProducts.cantidad    = '';
         this.NewProducts.precio      = '';
         this.NewProducts.categoria   = ''; 
         //this.router.navigate(['/clientes']);
+        $('#NuevoProducto').modal('hide');
       },
       err => console.log(err)
     );
 
-  }
+  } 
 
-  DataChange(DataProducto: { id: string | undefined; nombre: string | undefined; descripcion: string | undefined; peso: string | undefined; precio: string | undefined; categoria: string | undefined; }): void {
+  DataChange(DataProducto: { id: string | undefined; nombre: string | undefined; descripcion: string | undefined; cantidad: string | undefined; precio: string | undefined; categoria: string | undefined; }): void {
    
     this.products.id          = DataProducto.id;
     this.products.nombre      = DataProducto.nombre;
     this.products.descripcion = DataProducto.descripcion;
-    this.products.peso        = DataProducto.peso;
+    this.products.cantidad    = DataProducto.cantidad; 
     this.products.precio      = DataProducto.precio;
     this.products.categoria   = DataProducto.categoria; 
  
   }
 
-  getProducts():void{
-    this.productsservice.getProducts(this.data).subscribe(
-      ( res:any) => {
-        this.productos  = res.productos.data,
-        this.pagination = res.pagination
-      },
-      (err: any) => console.error(err)
-    )
-  }
   DeleteProducto(Product: { id: any; }): void {
     if(confirm('Seguro que deseas eliminar')){
       this.productsservice.deleteProducto(Product.id)
@@ -115,8 +123,7 @@ export class ProductsComponent implements OnInit {
     }
   }
  
-  UpdateProducto(): void {
-    console.log(this.products)
+  UpdateProducto(): void { 
 
     this.productsservice.updateProductos(this.products.id , this.products).subscribe(
       (res:any) => {
@@ -125,7 +132,7 @@ export class ProductsComponent implements OnInit {
           this.products.id          = '';
           this.products.nombre      = '';
           this.products.descripcion = '';
-          this.products.peso        = '';
+          this.products.cantidad    = '';
           this.products.precio      = '';
           this.products.categoria   = ''; 
   

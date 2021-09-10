@@ -12,8 +12,8 @@ export class ProductsService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(data: string): Observable<any> {
-    return this.http.get(`${this.API_URI}/products?data=${data}`);
+  getProducts(data: string, page:number|undefined): Observable<any> {
+    return this.http.get(`${this.API_URI}/products?data=${data}&page=${page}`);
   }
 
   saveProductos(producto: Products): Observable<Products> {

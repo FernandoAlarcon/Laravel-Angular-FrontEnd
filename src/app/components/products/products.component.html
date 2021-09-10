@@ -1,18 +1,18 @@
 <div class="row" >
   
   <div class="col-md-1" ></div>
-  <div class="col-md-11" >
+  <div class="col-md-10" >
     <div>
-      <br>
+      <br><br><br><br><br><br><br>
       
       <input type="text" 
-             placeholder="Mejora tu busquedad"
+             placeholder="Refine your search"
              class="form-control" 
-             (keydown)="getProducts()"
+             (keyup)="KeySearch()"
              [(ngModel)]="data"  />
 
              <svg  data-toggle = "modal"
-                   data-target = "#NuevoCliente"
+                   data-target = "#NuevoProducto"
                   xmlns="http://www.w3.org/2000/svg" 
                   width="16"
                   height="16" fill="currentColor" class="pointer bi bi-plus-square" viewBox="0 0 16 16">
@@ -26,13 +26,13 @@
         <thead>
           <tr> 
             <th scope="col">ID</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Peso</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Categoria</th>
-            <th scope="col">Editar</th>
-            <th scope="col">Eliminar</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Price</th>
+            <th scope="col">Category</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
            
           </tr>
         </thead>
@@ -41,7 +41,7 @@
             <th scope="row">{{producto.id}}</th>
             <th scope="row">{{producto.nombre}}</th>
             <td>{{producto.descripcion}}</td>
-            <td>{{producto.peso}}</td>
+            <td>{{producto.cantidad}}</td>
             <td>{{producto.precio}}</td>
             <td>{{producto.categoria}}</td> 
             <td>  
@@ -57,28 +57,54 @@
             <td> 
               <svg xmlns="http://www.w3.org/2000/svg"
                   (click)="DeleteProducto(producto)"
-                  width="16" height="16" fill="currentColor" class="bi bi-trash2 pointer" viewBox="0 0 16 16">
+                  width="16" height="16" fill="currentColor" class="pointer bi bi-trash2 pointer" viewBox="0 0 16 16">
                 <path d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"/>
               </svg>
             </td>
           </tr>       
         </tbody>
       </table>
+    </div>
+    
+    <div class="pagination-box row" >
+        <div class="col-md-2" ></div>
+
+        <div class="col-md-3"  >
+          <svg *ngIf='pagination.current_page > 1' (click)="changePage(pagination.current_page - 1)"  xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="pointer bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+          </svg>
+        </div>
+        <div class="col-md-2" >
+          Page {{ pagination.current_page }} <br>
+
+          <p style="color: grey;" >
+            Total {{ pagination.last_page }}
+          </p>
+        </div>
+        <div class="col-md-3"  >
+          <svg *ngIf='pagination.current_page < pagination.last_page' (click)="changePage(pagination.current_page + 1)" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="pointer bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+          </svg>
+        </div>
+        
+        <div class="col-md-2" ></div>
+    </div>
+
     <div>
     <div class="col-md-1" ></div>
   
     <!-- Modal -->
-    <div class="modal fade" id="0" tabindex="-1" role="dialog" aria-labelledby="Modaledit" aria-hidden="true">
+    <div class="modal fade" id="EditarProducto" tabindex="-1" role="dialog" aria-labelledby="Modaledit" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Editar {{products.nombre}}</h5>
+            <h5 class="modal-title" id="exampleModalLongTitle">Edit {{products.nombre}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form action="" >
+            <form id="contactForm" data-sb-form-api-token="API_TOKEN" >
               <div class="form-group">
                 <input type="text" [(ngModel)]="products.nombre" name="Nombre" placeholder="Nombres" class="form-control" autofocus>
               </div>
@@ -86,7 +112,7 @@
                 <input type="text" [(ngModel)]="products.descripcion" name="Descripcion"  placeholder="Descripcion" class="form-control"  >
               </div>
               <div class="form-group">
-                <input type="text" [(ngModel)]="products.peso" name="peso" placeholder="peso" class="form-control"  >
+                <input type="text" [(ngModel)]="products.cantidad" name="cantidad" placeholder="cantidad" class="form-control"  >
               </div>
               <div class="form-group">
                 <input type="number" [(ngModel)]="products.precio" name="precio" placeholder="precio" class="form-control"  >
@@ -109,7 +135,7 @@
       </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="NuevoCliente" tabindex="-1" role="dialog" aria-labelledby="ModalNewProduct" aria-hidden="true">
+    <div class="modal fade" id="NuevoProducto" tabindex="-1" role="dialog" aria-labelledby="ModalNewProduct" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -119,7 +145,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="" >
+            <form id="UpdateForm" data-sb-form-api-token="API_TOKEN" >
               <div class="form-group">
                 <input type="text" [(ngModel)]="NewProducts.nombre" name="Nombre" placeholder="Nombres" class="form-control" autofocus>
               </div>
@@ -127,7 +153,7 @@
                 <input type="text" [(ngModel)]="NewProducts.descripcion" name="Descripcion"  placeholder="Descripcion" class="form-control"  >
               </div>
               <div class="form-group">
-                <input type="text" [(ngModel)]="NewProducts.peso" name="peso" placeholder="peso" class="form-control"  >
+                <input type="text" [(ngModel)]="NewProducts.cantidad" name="cantidad" placeholder="cantidad" class="form-control"  >
               </div>
               <div class="form-group">
                 <input type="number" [(ngModel)]="NewProducts.precio" name="precio" placeholder="precio" class="form-control"  >
@@ -140,7 +166,7 @@
               </div>
               <div class="form-group">
                 <button class="btn btn-success" (click)="NuevosProductos()" >
-                  Actualizar
+                  Agregar
                 </button>
               </div>
             </form>

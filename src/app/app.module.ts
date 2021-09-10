@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { APP_BASE_HREF } from '@angular/common';
+
 // COMPONENTES
 import { AppComponent } from './app.component';
 import { SigninComponent } from './components/signin/signin.component';
@@ -10,13 +12,15 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { AppRoutingModule } from './app-routing.module';
 // STYLES 
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+// JQUERY
+import * as $ from 'jquery';
 
 // LIBRERIAS
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/auth.interceptor';
-import { NavigationComponent } from './navigation/navigation.component';
-import { HomeComponent } from './home/home.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { HomeComponent } from './components/home/home.component';
 import { ProductsComponent } from './components/products/products.component';
 import { CategoryComponent } from './components/category/category.component';
 
@@ -40,10 +44,14 @@ import { CategoryComponent } from './components/category/category.component';
     MDBBootstrapModule.forRoot()
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
+    {  
+      provide: HTTP_INTERCEPTORS, 
       useClass: AuthInterceptor,
       multi: true
+    },
+    {  
+      provide: APP_BASE_HREF, 
+      useValue : '/' , 
     }
   ],
   bootstrap: [AppComponent]

@@ -1,11 +1,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthStateService } from '../shared/auth-state.service';
-import { TokenService } from '../shared/token.service';
-// import { ClientesService } from 'src/app/services/clientes.service';
-// import { Clientes } from 'src/app/models/Clientes';
-
-// import { ClientesComponent } from '../clientes/clientes.component';
+import { AuthStateService } from '../../shared/auth-state.service';
+import { TokenService } from '../../shared/token.service'; 
 
 
 @Component({
@@ -36,15 +32,32 @@ export class NavigationComponent implements OnInit {
   constructor(
               // private ClientFunction: ClientesComponent,
               // private clientesService: ClientesService,
-              private auth: AuthStateService, 
-              public token: TokenService,
-              private router: Router,
+              private auth   : AuthStateService, 
+              public  token  : TokenService,
+              private router : Router,
               private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     this.auth.userAuthState.subscribe(val => {
         this.isSignedIn = val;
     });
+ 
+      var navbarShrink = function () {
+          const navbarCollapsible = document.body.querySelector('#mainNav');
+          if (!navbarCollapsible) {
+              return;
+          }
+          
+      };
+
+      // Shrink the navbar 
+      navbarShrink();
+ 
+      const navbarToggler = document.body.querySelector('.navbar-toggler');
+      const responsiveNavItems = [].slice.call(
+          document.querySelectorAll('#navbarResponsive .nav-link')
+      );
+        
   } 
 
    // Signout
